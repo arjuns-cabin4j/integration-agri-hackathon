@@ -1,0 +1,80 @@
+import java.lang.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+
+import com.cabin4j.suite.entity.redis.EventsChannelTopicEntity;
+import com.cabin4j.suite.platform.constants.Constants;
+import com.cabin4j.suite.platform.dao.GenericDao;
+import com.cabin4j.suite.platform.data.SearchParams;
+import com.cabin4j.suite.platform.data.SearchResult;
+import com.cabin4j.suite.platform.integration.v1.data.PlatformIntegrationData;
+import com.cabin4j.utility.SpringUtils;
+
+
+global  SpringUtils springUtils;
+
+rule "xf-ondc-on-search"
+when
+   $data : PlatformIntegrationData();
+then
+
+
+
+   		if (null != $data.getRequest() && null != $data.getRequest().get("messageId")
+   				&& StringUtils.isNotBlank((String) $data.getRequest().get("messageId"))) {
+   			Logger log = LoggerFactory.getLogger(Object.class);
+   			GenericDao genericDao = springUtils.getBean(GenericDao.class);
+   			try {
+   				List<SearchParams> params = new ArrayList<>();
+   				params.add(new SearchParams("messageId", Constants.QueryComparator.EQUALS,
+   						(String)$data.getRequest().get("messageId")));
+   				params.add(new SearchParams("action", Constants.QueryComparator.EQUALS, "bap-on_search"));
+   				SearchResult<EventsChannelTopicEntity> result = genericDao.loadAll(params,
+   						EventsChannelTopicEntity.class, -1, -1);
+   				if (null != result && CollectionUtils.isNotEmpty(result.getResults())) {
+   					List<Map<String, Object>> results = new ArrayList<>();
+   					for (EventsChannelTopicEntity res : result.getResults()) {
+   						if (null != res && StringUtils.isNotBlank(res.getMessage())) {
+   							results.add((new JSONObject(res.getMessage()).toMap()));
+   						}
+   					}
+   					$data.getResponse().put("onSearchResponse", results);
+   					for (EventsChannelTopicEntity res : result.getResults()) {
+   						try {
+   							//genericDao.remove(res);
+   						} catch (Exception e) {
+   							log.error(
+   									"Exception occurred while deleting EventsChannelTopicEntity with messageId {} and action {}.",
+   									res.getMessageId(), res.getAction(), e);
+   						}
+   					}
+   				} else {
+   					$data.getResponse().put("onSearchResponse", Collections.emptyList());
+   				}
+   				$data.getResponse().put("status", 200);
+   				$data.setResponseStatus(HttpStatus.OK);
+   			} catch (Exception e) {
+   				log.error("Exception occurred while reading on search response for message id: {}",
+   						$data.getRequest().get("messageId"), e);
+   				$data.getResponse().put("status", 500);
+   				$data.setResponseStatus(HttpStatus.OK);
+   				return;
+   			}
+   		} else {
+   			$data.getResponse().put("error", "Request Parameters Missing!");
+   			$data.getResponse().put("status", 400);
+   			$data.setResponseStatus(HttpStatus.BAD_REQUEST);
+   		}
+end

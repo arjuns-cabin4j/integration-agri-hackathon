@@ -1,0 +1,189 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ondc</groupId>
+	<artifactId>ondc</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+	<name>ONDC</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.cabin4j.suite</groupId>
+		<artifactId>cabin4j-suite</artifactId>
+		<version>1.0.6.RELEASE</version>
+		<relativePath>../cabin4j-suite/pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.cabin4j.suite.redis</groupId>
+			<artifactId>cabin4j-redis</artifactId>
+			<version>${cabin4j-suite.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/generated-lib/cabin4j-redis.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.cabin4j.suite.platform</groupId>
+			<artifactId>cabin4j-platform</artifactId>
+			<version>${cabin4j-suite.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/generated-lib/cabin4j-platform.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.cabin4j.suite.cms</groupId>
+			<artifactId>cabin4j-cms2</artifactId>
+			<version>${cabin4j-suite.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/generated-lib/cabin4j-cms2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.cabin4j.suite.entity.platform</groupId>
+			<artifactId>cabin4j-entity-platform</artifactId>
+			<version>${cabin4j-suite.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/generated-lib-entity/cabin4j-entity-platform.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.cabin4j.suite.entity.cms</groupId>
+			<artifactId>cabin4j-entity-cms2</artifactId>
+			<version>${cabin4j-suite.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/generated-lib-entity/cabin4j-entity-cms2.jar</systemPath>
+		</dependency>
+		<!-- Micrometer -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> 
+			</dependency> <dependency> <groupId>com.cabin4j.suite.micrometer</groupId> 
+			<artifactId>cabin4j-micrometer</artifactId> <version>${cabin4j-suite.version}</version> 
+			<scope>system</scope> <systemPath>${basedir}/../cabin4j-suite/generated-lib/cabin4j-micrometer.jar</systemPath> 
+			</dependency> <dependency> <groupId>com.fasterxml.jackson.core</groupId> 
+			<artifactId>jackson-databind</artifactId> </dependency> -->
+		<!-- Micrometer -->
+		<dependency> <groupId>com.xhopfront.entities</groupId> <artifactId>entities</artifactId> 
+			<version>1.0.0</version> <scope>system</scope> <systemPath>${basedir}/../cabin4j-suite/xhopfront-lib/entities.jar</systemPath> 
+			</dependency>
+		<dependency>
+			<groupId>com.xhopfront</groupId>
+			<artifactId>xhopfront</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cabin4j-suite/xhopfront-lib/xhopfront.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.ondc.entities</groupId>
+			<artifactId>entities-ondc</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish</groupId>
+					<artifactId>jakarta.el</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<artifactId>ecj</artifactId>
+			<version>4.6.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-hikaricp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<!-- Spring Security Dependencies Start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- Spring Security Dependencies End -->
+
+		<!-- ondc dependencies start -->
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-tools</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-translate</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>1.70</version>
+		</dependency>		
+		<!-- ondc dependencies end -->
+	</dependencies>
+	<build>
+		<finalName>xhopfront</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<!-- mvn compile exec:java -Dexec.classpathScope=test -->
+					<mainClass>com.cabin4j.suite.platform.DRLGenerator</mainClass>
+					<arguments>
+						<argument>./src/main/java/drl</argument>
+						<!-- <argument>http://43.205.25.143:3333</argument> -->
+						<argument>http://localhost:9001</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
